@@ -24,12 +24,12 @@ function CoreTests(botname, config) {
     const botMethods = [
         'createConversation',
         //'createPrivateConversation',
-        'reply', 
-        'say', 
+        'reply',
+        'say',
         'startConversation',
         //'startPrivateConversation',
     ];
-    
+
     const conversationMethods = [
         'activate',
         'addMessage',
@@ -63,7 +63,7 @@ function CoreTests(botname, config) {
         });
 
         controllerMethods.forEach((property) => {
-            test (`Controller object has method ${property}`, (done) => {
+            test(`Controller object has method ${property}`, (done) => {
                 expect(controller).toHaveProperty(property);
                 expect(typeof controller[property]).toBe('function');
                 done();
@@ -77,7 +77,7 @@ function CoreTests(botname, config) {
                 expect(typeof bot).toBe('object');
                 done();
             });
-    
+
             botMethods.forEach((property) => {
                 test(`Bot object has method ${property}`, (done) => {
                     expect(bot).toHaveProperty(property);
@@ -103,10 +103,10 @@ function CoreTests(botname, config) {
                             done();
                         });
                     });
-        
+
                 });
             });
-            
+
             // execute the test
             controller.ingest(bot, {
                 text: 'test #1',
@@ -114,7 +114,7 @@ function CoreTests(botname, config) {
                 channel: 'channel',
                 timestamp: Date.now(),
             }, null);
-    
+
         });
 
         test('Controller shutdown', (done) => {
@@ -193,13 +193,13 @@ function CoreTests(botname, config) {
                 }, null);
 
             });
-            
+
             controller.shutdown();
         });
 
         describe('Conversation methods', () => {
             const controller = require(`../../lib/${botname}`)(config);
-        
+
             // NB: spawning creates an object that may hold resources and prevents the script from ending
             controller.spawn(config, (bot) => {
 
@@ -216,7 +216,7 @@ function CoreTests(botname, config) {
                         });
                     });
                 });
-            
+
                 // execute the test
                 controller.ingest(bot, {
                     text: 'test #3',
@@ -224,7 +224,7 @@ function CoreTests(botname, config) {
                     channel: 'channel',
                     timestamp: Date.now(),
                 }, null);
-    
+
             });
 
             controller.shutdown();
