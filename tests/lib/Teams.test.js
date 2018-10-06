@@ -1,7 +1,5 @@
 'use strict';
 
-'use strict';
-
 // setup
 const botname = 'Teams';
 
@@ -17,9 +15,15 @@ let config = {
 
 // Run core tests
 
-const coreConfig = config;
-coreConfig.serviceUrl = 'undefined';
-require('./core.js')(botname, coreConfig);
+{
+    const coreConfig = config;
+
+    coreConfig.serviceUrl = 'undefined';
+
+    require('./core.js')(botname, coreConfig);
+   jest.resetModules();
+}
+
 
 describe('authentication', () => {
     beforeEach(() => {

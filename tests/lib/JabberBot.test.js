@@ -4,7 +4,10 @@
 const botname = 'JabberBot';
 const config = {
     client: {
-        jid: 'undefined',
+        jid: 'undefined@localhost',
+        password: 'undefined',
+        host: 'localhost',
+        port: 5222
     },
     debug: false,
 };

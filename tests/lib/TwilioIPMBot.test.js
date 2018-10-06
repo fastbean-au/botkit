@@ -3,7 +3,7 @@
 // setup
 const botname = 'TwilioIPMBot';
 const config = {
-    TWILIO_ACCOUNT_SID: 'undefined',
+    TWILIO_ACCOUNT_SID: 'AC-undefined',
     TWILIO_AUTH_TOKEN: 'undefined',
     TWILIO_IPM_SERVICE_SID: 'undefined',
     TWILIO_API_KEY: 'undefined',
