@@ -1,6 +1,8 @@
 'use strict';
 
-function CoreTests(botname, config) {
+const clone = require('clone');
+
+function CoreTests(botname, originalConfig) {
 
     // list of methods comes from https://botkit.ai/docs/core.html
 
@@ -54,6 +56,7 @@ function CoreTests(botname, config) {
     ];
 
     describe(`Core tests (methods) - ${botname}`, () => {
+        const config = clone(originalConfig);
         const controller = require(`../../lib/${botname}`)(config);
 
         test('Controller object created', (done) => {
@@ -71,7 +74,8 @@ function CoreTests(botname, config) {
         });
 
         // NB: spawning creates an object that may hold resources and prevents the script from ending
-        controller.spawn(config, (bot) => {
+        const config2 = clone(originalConfig);
+        controller.spawn(config2, (bot) => {
             test('Bot object created', (done) => {
                 expect(bot).toBeDefined();
                 expect(typeof bot).toBe('object');
@@ -127,6 +131,7 @@ function CoreTests(botname, config) {
     describe(`Core tests (functional) - ${botname}`, () => {
 
         describe('Controller methods', () => {
+            const config = clone(originalConfig);
             const controller = require(`../../lib/${botname}`)(config);
 
             describe('userAgent', () => {
@@ -160,75 +165,6 @@ function CoreTests(botname, config) {
             controller.shutdown();
         });
 
-        describe('Bot methods', () => {
-            const controller = require(`../../lib/${botname}`)(config);
-
-            // NB: spawning creates an object that may hold resources and prevents the script from ending
-            controller.spawn(config, (bot) => {
-
-                bot.say({text: 'bot say message', channel: 'channel'}, (err, response) => {
-                    test('Say', (done) => {
-                        expect(err).toBeUndefined();
-                        expect(response).toBeUndefined(); // But we really don't expect this to be undefined, do we? The doc says "response", but response from what?
-                        done();
-                    });
-                });
-
-                controller.hears(['test #2'], 'message_received', (bot, message) => {
-                    bot.reply(message, 'test 2 response', (err, response) => {
-                        test('reply', (done) => {
-                            expect(err).toBeUndefined();
-                            expect(response).toBeUndefined();
-                            done();
-                        });
-                    });
-                });
-
-                // execute the test
-                controller.ingest(bot, {
-                    text: 'test #2',
-                    user: 'user',
-                    channel: 'channel',
-                    timestamp: Date.now(),
-                }, null);
-
-            });
-
-            controller.shutdown();
-        });
-
-        describe('Conversation methods', () => {
-            const controller = require(`../../lib/${botname}`)(config);
-
-            // NB: spawning creates an object that may hold resources and prevents the script from ending
-            controller.spawn(config, (bot) => {
-
-                // setup the controller to hear messages
-                controller.hears(['test #3'], 'message_received', (bot, message) => {
-
-                    // conversation tests
-                    bot.startConversation(message, (err, convo) => {
-                        test('Conversation started', (done) => {
-                            expect(err).toBeNull();
-                            expect(convo).toBeDefined;
-                            expect(typeof convo).toBe('object');
-                            done();
-                        });
-                    });
-                });
-
-                // execute the test
-                controller.ingest(bot, {
-                    text: 'test #3',
-                    user: 'user',
-                    channel: 'channel',
-                    timestamp: Date.now(),
-                }, null);
-
-            });
-
-            controller.shutdown();
-        });
     });
 
 };

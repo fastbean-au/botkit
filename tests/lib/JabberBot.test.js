@@ -1,8 +1,11 @@
 'use strict';
 
 // setup
-const botname = 'Web';
+const botname = 'JabberBot';
 const config = {
+    client: {
+        jid: 'undefined',
+    },
     debug: false,
 };
 

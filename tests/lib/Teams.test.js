@@ -1,4 +1,12 @@
 'use strict';
+
+'use strict';
+
+// setup
+const botname = 'Teams';
+
+// add fakes/mocks
+
 let teamsBot;
 let teamsApi;
 let config = {
@@ -6,6 +14,12 @@ let config = {
     clientSecret: 'secret',
     debug: false
 };
+
+// Run core tests
+
+const coreConfig = config;
+coreConfig.serviceUrl = 'undefined';
+require('./core.js')(botname, coreConfig);
 
 describe('authentication', () => {
     beforeEach(() => {

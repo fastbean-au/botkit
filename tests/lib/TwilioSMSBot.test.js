@@ -1,8 +1,11 @@
 'use strict';
 
 // setup
-const botname = 'Web';
+const botname = 'TwilioSMSBot';
 const config = {
+    account_sid: 'undefined',
+    auth_token: 'undefined',
+    twilio_number: 'undefined',
     debug: false,
 };
 

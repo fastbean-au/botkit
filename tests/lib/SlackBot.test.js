@@ -1,7 +1,7 @@
 'use strict';
 
 // setup
-const botname = 'Web';
+const botname = 'SlackBot';
 const config = {
     debug: false,
 };
