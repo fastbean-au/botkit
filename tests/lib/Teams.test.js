@@ -3,27 +3,48 @@
 // setup
 const botname = 'Teams';
 
-// add fakes/mocks
-
-let teamsBot;
-let teamsApi;
 let config = {
     clientId: 'client',
     clientSecret: 'secret',
     debug: false
 };
 
-// Run core tests
+const coreConfig = {
+    clientId: 'undefined',
+    clientSecret: 'undefined',
+    serviceUrl: 'undefined',
+    debug: 'undefined'
+};
+
+// add fakes/mocks
+
+let teamsApi;
 
 {
-    const coreConfig = config;
+    jest.doMock('../../lib/TeamsAPI', () => {
+        return jest.fn((configuration) => {
+            return {
+                getToken: jest.fn((cb) => {
+                    configuration.token =  'token';
+                    configuration.token_expires_in = '3600';
+                    cb(null);
+                })
+            };
+        });
+    });
 
-    coreConfig.serviceUrl = 'undefined';
+    jest.useFakeTimers();
+    teamsApi = require('../../lib/TeamsAPI');
+ 
+    // Run core tests
 
-    require('./core.js')(botname, coreConfig);
-   jest.resetModules();
+    require('./core.js')(botname, config);
+
+    // reset the fakes/mocks
+    jest.resetModules();
+    jest.clearAllTimers();
+    teamsApi = null;
 }
-
 
 describe('authentication', () => {
     beforeEach(() => {

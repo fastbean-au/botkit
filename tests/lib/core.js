@@ -73,9 +73,9 @@ function CoreTests(botname, originalConfig) {
             });
         });
 
-        // NB: spawning creates an object that may hold resources and prevents the script from ending
         const config2 = clone(originalConfig);
         controller.spawn(config2, (bot) => {
+
             test('Bot object created', (done) => {
                 expect(bot).toBeDefined();
                 expect(typeof bot).toBe('object');
@@ -133,6 +133,20 @@ function CoreTests(botname, originalConfig) {
         describe('Controller methods', () => {
             const config = clone(originalConfig);
             const controller = require(`../../lib/${botname}`)(config);
+
+            describe('spawn', () => {
+                // NB: spawning creates an object that may hold resources and prevents the script from ending
+                test('Executes callback', (done) => {
+                    const config3 = clone(originalConfig);
+                    let spawnCallback = false;
+                    controller.spawn(config3, (bot) => {
+                        spawnCallback = true;
+                    });
+
+                    expect(spawnCallback).toBe(true);
+                    done();
+                });
+            });
 
             describe('userAgent', () => {
                 test('Returns a string', (done) => {

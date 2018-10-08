@@ -22,7 +22,7 @@ describe(`Functional Tests - ${botname}`, () => {
             bot.say({text: 'bot say message', channel: 'channel'}, (err, response) => {
                 test('Say', (done) => {
                     expect(err).toBeUndefined();
-                    expect(response).toBeUndefined(); // the doc says "response", but do not indicate what the response is.
+                    expect(response).toBeUndefined(); // the doc says "response", but does not indicate what the response is.
                     done();
                 });
             });
